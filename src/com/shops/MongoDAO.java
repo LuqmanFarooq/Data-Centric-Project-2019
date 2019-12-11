@@ -58,4 +58,12 @@ public ArrayList<HeadOffice> loadOffices() throws Exception {
 			.append("location",head.getLocation());
 		collection.insertOne(doc);	
 	}
+	
+	//delete Head Office
+		public void deleteHeadOffice(HeadOffice head) throws Exception {
+			Document doc = new Document();
+			doc.append("_id",head.getId())
+				.append("location",head.getLocation());
+			collection.deleteOne(doc);	
+		}
 }

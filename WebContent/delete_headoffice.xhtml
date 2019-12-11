@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+  
+  <h:head>
+    <title>Head Office - Delete</title>
+    <h:outputStylesheet library="css" name="tables.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+  </h:head>
+  <h:body>
+  	<h:messages globalOnly="true" styleClass="error"/>
+    <h:form>
+    <h3>Delete Head Office</h3>
+      Store ID:<h:inputText value="#{headOffice.id}" id="id" required="true" requiredMessage="ID is mandatory" ></h:inputText>
+      <br/><br/>
+      <h:message for="id" styleClass="error"/>
+      <br/><br/>
+      Location:<h:inputText value="#{headOffice.location}" id="location" required="true" requiredMessage="Location is mandatory" ></h:inputText>
+      <br/><br/>
+      <h:message for="location" styleClass="error"/>
+      <br/><br/>
+      <h:commandButton value="Delete" action="#{headOfficeController.deleteHeadOffice(headOffice)}"/><br/><br/>
+   	<h:link value="Home " outcome="index" style="margin-right: 5px"/> 	
+   	<h:link value="Stores" outcome="list_stores"/> 	
+   </h:form>
+  </h:body>
+</html>

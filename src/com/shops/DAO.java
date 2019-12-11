@@ -12,22 +12,20 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-
-
-
 /**
- * Mysql Data Access Object (DAO) which connects and communicates with Mysql Database.
- * Responsible for all the functionality of database related methods.
+ * Mysql Data Access Object (DAO) which connects and communicates with Mysql
+ * Database. Responsible for all the functionality of database related methods.
+ * 
  * @author Muhammad Luqman
  *
  */
 public class DAO {
 
-	 DataSource mysqlDS;
+	DataSource mysqlDS;
 
-	
 	/**
 	 * Constructor setting up connection to the Mysql database.
+	 * 
 	 * @throws NamingException If database error occurs.
 	 */
 	public DAO() throws Exception {
@@ -35,13 +33,17 @@ public class DAO {
 		String jndiName = "java:comp/env/shops";
 		mysqlDS = (DataSource) context.lookup(jndiName);
 	}
-	
-public ArrayList<Store> loadStores() throws Exception {
-		
+
+	// ===============================STORE METHODS=========================================
+
+	// Load Stores from the database and save into an ArrayList then return it.
+
+	public ArrayList<Store> loadStores() throws Exception {
+
 		Connection myConn = null;
 		Statement myStmt = null;
 		ResultSet myRs = null;
-		
+
 		myConn = mysqlDS.getConnection();
 
 		String sql = "select * from store";
@@ -49,7 +51,7 @@ public ArrayList<Store> loadStores() throws Exception {
 		myStmt = myConn.createStatement();
 
 		myRs = myStmt.executeQuery(sql);
-		
+
 		ArrayList<Store> stores = new ArrayList<Store>();
 
 		// process result set
@@ -63,11 +65,57 @@ public ArrayList<Store> loadStores() throws Exception {
 		return stores;
 	}
 
+	/**
+	 * Add a Store into the database.
+	 * 
+	 * @param s The Store object that user inputed from the web page.
+	 * @throws SQLException If database error occurs.
+	 */
+
+	public void addStore(Store s) throws SQLException {
+		int sID = s.getsID();
+		String sName = s.getsName();
+		String founded = s.getFounded();
+
+		Connection conn = mysqlDS.getConnection();
+		String query = "insert into store values(?, ?, ?);";
+		PreparedStatement statement = conn.prepareStatement(query);
+		statement.setInt(1, sID);
+		statement.setString(2, sName);
+		statement.setString(3, founded);
+		statement.executeUpdate();
+
+		conn.close();
+	} // addStore()
+
+	/**
+	 * Delete a Store from the database. gets id and delete by id.
+	 * 
+	 * @throws SQLException If database error occurs.
+	 */
+	public void deleteStore(Store store) throws Exception {
+		Connection myConn = null;
+		java.sql.PreparedStatement myStmt = null;
+
+		myConn = mysqlDS.getConnection();
+		String sql = "DELETE from store where id = ?;";
+		myStmt = myConn.prepareStatement(sql);
+		myStmt.setInt(1, store.getsID());
+		myStmt.executeUpdate();
+
+		myConn.close();
+
+	}// deletestore()
+
+	// ===============================PRODUCT METHODS==============================================
+	// Load all products from the database and save into an ArrayList then return
+	// it.
+
 	public ArrayList<Product> manageProducts() throws SQLException {
 		Connection myConn = null;
 		Statement myStmt = null;
 		ResultSet myRs = null;
-		
+
 		myConn = mysqlDS.getConnection();
 
 		String sql = "select * from product";
@@ -75,7 +123,7 @@ public ArrayList<Store> loadStores() throws Exception {
 		myStmt = myConn.createStatement();
 
 		myRs = myStmt.executeQuery(sql);
-		
+
 		ArrayList<Product> products = new ArrayList<Product>();
 
 		// process result set
@@ -90,23 +138,13 @@ public ArrayList<Store> loadStores() throws Exception {
 		return products;
 	}
 
-
-	public void addStore(Store s) throws SQLException {
-		int sID = s.getsID();
-		String sName = s.getsName();
-		String founded = s.getFounded();
-
-		Connection conn = mysqlDS.getConnection();
-		String query = "insert into store values(?, ?, ?);";
-		PreparedStatement statement = conn.prepareStatement(query);
-		statement.setInt(1, sID);
-		statement.setString(2, sName);
-		statement.setString(3, founded);
-		statement.executeUpdate();
-		
-		conn.close();
-	} // addStore()
-	
+	/**
+	 * Get all the Products which associate with the specific Store.
+	 * 
+	 * @param store The Store object that user selected.
+	 * @return products The list of products on the store.
+	 * @throws SQLException If database error occurs.
+	 */
 	public ArrayList<Product> getProducts(Store store) throws SQLException {
 		Connection conn = mysqlDS.getConnection();
 		String query = "select * from product where sID=?;";
@@ -121,14 +159,16 @@ public ArrayList<Store> loadStores() throws Exception {
 			String name = rs.getString("prodName");
 			double price = rs.getDouble("price");
 
-			Product p = new Product(sid,pid , name,price, store);
+			Product p = new Product(sid, pid, name, price, store);
 			products.add(p);
 		} // while
-		
+
 		conn.close();
 		return products;
 	} // getproducts()
-	
+
+	// loads the join of store and products and save into an arraylist and return it
+
 	public ArrayList<Product> loadProducts() throws SQLException {
 		Connection conn = mysqlDS.getConnection();
 		String query = "select * from product join store on product.pid = store.sID;";
@@ -145,51 +185,44 @@ public ArrayList<Store> loadStores() throws Exception {
 			String storeName = rs.getString("name");
 			String founded = rs.getString("founded");
 			Store s = new Store(storeID, storeName, founded);
-			Product p = new Product(sid,pid,name,price,s);
+			Product p = new Product(sid, pid, name, price, s);
 			products.add(p);
 		} // while
 
 		conn.close();
 		return products;
 	} // loadProducts()
-	
+
+	/**
+	 * Return the selected product object.
+	 * 
+	 * @param getproduct The Product object that user selected.
+	 * @return products The list of products which should only contains one entry.
+	 */
 	public ArrayList<Product> getProduct(Product product) {
 		ArrayList<Product> products = new ArrayList<Product>();
 		products.add(product);
-		
+
 		return products;
-	} // getProduct()	
-	
-	//DELETE STORE METHOD
-		public void deleteStore(Store store) throws Exception {
-			Connection myConn = null;
-			java.sql.PreparedStatement myStmt = null;
+	} // getProduct()
 
+	/**
+	 * Delete a Product from the database. Matches the id and deletes product by
+	 * pid.
+	 * 
+	 * @throws SQLException If database error occurs.
+	 */
+	public void deleteProduct(Product product) throws Exception {
+		Connection myConn = null;
+		java.sql.PreparedStatement myStmt = null;
 
-			myConn = mysqlDS.getConnection();
-			String sql = "DELETE from store where id = ?;";
-			myStmt = myConn.prepareStatement(sql);
-			myStmt.setInt(1, store.getsID());
-			myStmt.executeUpdate();
-			
-			myConn.close();
-			
-		}
-		
-		//DELETE PRODUCT METHOD
-		public void deleteProduct(Product product) throws Exception {
-			Connection myConn = null;
-			java.sql.PreparedStatement myStmt = null;
+		myConn = mysqlDS.getConnection();
+		String sql = "DELETE from product where pid = ?;";
+		myStmt = myConn.prepareStatement(sql);
+		myStmt.setInt(1, product.getPid());
+		myStmt.executeUpdate();
 
+		myConn.close();
+	}
 
-			myConn = mysqlDS.getConnection();
-			String sql = "DELETE from product where pid = ?;";
-			myStmt = myConn.prepareStatement(sql);
-			myStmt.setInt(1, product.getPid());
-			myStmt.executeUpdate();
-			
-			myConn.close();
-		} 
-		
-		
 }

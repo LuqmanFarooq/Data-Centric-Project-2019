@@ -47,16 +47,32 @@ import com.mongodb.MongoWriteException;
 			System.out.println(off.getId()+" "+off.getLocation());
 			try {
 				mondao.addHeadOffice(off);
-				return "list_offices";
+				return "list_office.xhtml";
 			} catch (MongoWriteException e) {
-				FacesMessage message = new FacesMessage("Error: Store ID "+off._id+" already exist");
+				FacesMessage message = new FacesMessage("Error: Store ID "+off._id+" already has Location");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				return null;
 			} catch (Exception e) {
-				return null;
+				FacesMessage message = new FacesMessage("Error: Cannot connect to MySQL Database");
+	            FacesContext.getCurrentInstance().addMessage(null, message);
+	            e.printStackTrace();	
 			}
-
+			return null;
 		}
+		//Adding a New Head Office
+				public String deleteHeadOffice(HeadOffice off) {
+					System.out.println(off.getId()+" "+off.getLocation());
+					try {
+						mondao.deleteHeadOffice(off);
+						return "list_office.xhtml";
+					} 
+					catch (Exception e) {
+						FacesMessage message = new FacesMessage("Error: Cannot connect to MySQL Database");
+			            FacesContext.getCurrentInstance().addMessage(null, message);
+			            e.printStackTrace();	
+					}
+					return null;
+				}
 
 		
 		public ArrayList<HeadOffice> getOffices() {
