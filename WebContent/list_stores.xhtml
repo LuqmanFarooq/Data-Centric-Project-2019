@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Shops DB - Manage Stores</title>
+	<h:outputStylesheet library="css" name="tables.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+
+<h:body>
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{storeController.loadStores()}" />
+	</f:metadata>
+
+	<h:messages globalOnly="true" styleClass="error"/>
+
+	<h:button value="Add Store" outcome="add_store" styleClass="addbutton"/>
+
+	<h:dataTable var="s" value="#{storeController.stores}"
+		headerClass="table-header" rowClasses="table-odd-row,table-even-row">
+		<h:column>
+			<f:facet name="header">Store ID</f:facet>
+			#{s.sID}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Store Name</f:facet>
+			#{s.sName}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Founded</f:facet>
+			#{s.founded}
+		</h:column>
+		<h:column>
+			<f:facet name="header"> Action</f:facet>
+			<h:form>
+				<h:commandLink value="Show Products " action="#{productController.showProducts(s)}"/>
+				<h:commandLink value="   Delete" action="#{storeController.deleteStore(s)}"></h:commandLink>
+			</h:form>
+		</h:column>
+	</h:dataTable>
+
+	<hr/>
+	<h:link value="Home" outcome="index" />
+</h:body>
+</html>

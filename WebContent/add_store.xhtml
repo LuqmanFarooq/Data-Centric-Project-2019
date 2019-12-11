@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+	<title>Shop DB - Add Store</title>
+	<h:outputStylesheet library="css" name="tables.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+
+<h:body>
+	<h:messages globalOnly="true" styleClass="error" />
+	<h2>Add Store</h2>
+	<h:form>
+		<table>
+			<tr>
+				<td>Store Name:</td>
+				<td>
+					<h:inputText value="#{store.sName}" required="true"
+						requiredMessage="Name is mandatory" id="name" style="margin-right: 5px"/>
+				</td>
+			</tr>
+			<tr>
+			<td>
+				<h:message for="name" styleClass="error"/>
+				</td></tr>
+			<tr>
+				<td>Founded:</td>
+				<td>
+					<h:inputText value="#{store.founded}" required="true"
+						requiredMessage="Founded is mandatory" id="founded" style="margin-right: 5px"/>
+				</td>
+			</tr>
+			<tr>
+			<td>
+			<h:message for="founded" styleClass="error"/>
+			</td>
+			</tr>
+		</table>
+		<h:commandButton value="Add" action="#{storeController.addStore(store)}" />
+	</h:form>
+	<br/>
+	<h:link value="Home" outcome="index" style="margin-right: 5px"/>
+	<h:link value="stores" outcome="list_stores" />
+
+</h:body>
+
+</html>
