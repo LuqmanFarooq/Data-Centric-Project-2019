@@ -16,10 +16,7 @@
       <br/><br/>
       <h:message for="id" styleClass="error"/>
       <br/><br/>
-      Location:<h:inputText value="#{headOffice.location}" id="location" required="true" requiredMessage="Location is mandatory" ></h:inputText>
-      <br/><br/>
-      <h:message for="location" styleClass="error"/>
-      <br/><br/>
+      
       <h:commandButton value="Delete" action="#{headOfficeController.deleteHeadOffice(headOffice)}"/><br/><br/>
    	<h:link value="Home " outcome="index" style="margin-right: 5px"/> 	
    	<h:link value="Stores" outcome="list_stores"/> 	

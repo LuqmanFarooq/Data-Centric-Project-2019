@@ -19,9 +19,12 @@ import com.mongodb.MongoWriteException;
 		public ArrayList<HeadOffice> getProducts() {
 			return offices;
 		}
-
+		
 		private MongoDAO mondao;
 		
+		/**
+		 * Constructor initializing mongoDAO and the list of offices.
+		 */
 		public HeadOfficeController() {
 			super();
 			try {
@@ -30,7 +33,7 @@ import com.mongodb.MongoWriteException;
 				e.printStackTrace();
 			}
 		}
-		
+		// load and save offices from mongodao
 		public String loadOffices() {
 			System.out.println("In loadOffices()");
 			try {
@@ -41,10 +44,11 @@ import com.mongodb.MongoWriteException;
 			}
 			return null;
 		}
-
+		
 		//Adding a New Head Office
 		public String addHeadOffice(HeadOffice off) {
 			System.out.println(off.getId()+" "+off.getLocation());
+			
 			try {
 				mondao.addHeadOffice(off);
 				return "list_office.xhtml";
@@ -74,7 +78,7 @@ import com.mongodb.MongoWriteException;
 					return null;
 				}
 
-		
+		// getters and setters
 		public ArrayList<HeadOffice> getOffices() {
 			return offices;
 		}

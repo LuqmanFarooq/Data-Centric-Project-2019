@@ -5,7 +5,7 @@ import javax.faces.bean.ManagedBean;
 
 
 /**
- * A Student class ManagedBean model associated with Course class.
+ * A Student class ManagedBean model associated with Product class.
  *
  */
 @ManagedBean

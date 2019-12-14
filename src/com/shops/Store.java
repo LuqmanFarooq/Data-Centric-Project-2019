@@ -3,7 +3,7 @@ package com.shops;
 import javax.faces.bean.ManagedBean;
 
 /**
- * A Course class ManagedBean model.
+ * A Store class ManagedBean model.
  *
  */
 @ManagedBean
@@ -11,10 +11,11 @@ public class Store {
 	private int sID;
 	private String sName;
 	private String founded;
-	
+
 	// === Constructors ===
-	public Store() {}
-	
+	public Store() {
+	}
+
 	public Store(int sID, String sName, String founded) {
 		super();
 		this.sID = sID;
@@ -46,5 +47,5 @@ public class Store {
 	public void setFounded(String founded) {
 		this.founded = founded;
 	}
-	
+
 }// class
