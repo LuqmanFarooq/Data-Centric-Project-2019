@@ -5,7 +5,7 @@ JSF dynamic web application that queries and updates a MySQL database and
 a MongoDB database.
 
 ## Features
-Main Page
+### Main Page
 The Main page consists of 3 links:
 • One to the Manage Stores page
 • One to the Manage Products page
