@@ -4,7 +4,7 @@ JSF Web Application with MySQL and MongoDB Databases
 JSF dynamic web application that queries and updates a MySQL database and
 a MongoDB database.
 
-#Features
+## Features
 Main Page
 The Main page consists of 3 links:
 • One to the Manage Stores page
